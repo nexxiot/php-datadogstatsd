@@ -710,7 +710,8 @@ class DogStatsd
             if (!is_null($this->socketPath)) {
                 $res = socket_sendto($socket, $message, strlen($message), 0, $this->socketPath);
             } else {
-                $res = socket_sendto($socket, $message, strlen($message), 0, $this->host, $this->port);
+                socket_connect($socket, $this->host, $this->port);
+                $res = socket_send($socket, $message, strlen($message), 0);
             }
 
             return $res;
